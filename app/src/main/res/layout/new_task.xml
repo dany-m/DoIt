@@ -1,13 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
     <EditText
         android:id="@+id/newTaskText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@null"
-        android:hint="New Task"
+        android:hint="@string/new_task"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Button
@@ -17,7 +18,7 @@
         android:layout_below="@id/newTaskText"
         android:layout_alignParentEnd="true"
         android:background="@android:color/transparent"
-        android:text="Save"
+        android:text="@string/save"
         android:textAllCaps="false"
         android:textColor="@android:color/darker_gray"
         android:textSize="16dp" />

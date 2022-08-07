@@ -1,6 +1,7 @@
 package com.doit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements DialogCloseListener {
 
@@ -30,12 +32,10 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide(); // What does this exactly do?
+        getSupportActionBar().hide();
 
         db = new DatabaseHandler(this);
         db.openDatabase();
-
-        taskList = new ArrayList<>();
 
         taskRecyclerView = findViewById(R.id.tasksRecyclerView);
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -43,16 +43,13 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         taskRecyclerView.setAdapter(tasksAdapter);
 
         floatingActionButton = findViewById(R.id.floatingActionButton);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(tasksAdapter));
+        itemTouchHelper.attachToRecyclerView(taskRecyclerView);
 
         taskList = db.getAllTasks();
         tasksAdapter.setTasks(taskList);
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG);
-            }
-        });
+        floatingActionButton.setOnClickListener(view -> AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG));
     }
 
     @Override
